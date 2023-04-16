@@ -11,10 +11,22 @@ public class SceneDrawManager {
         if (instance == null) instance = new SceneDrawManager();
         return instance;
     }
+
     SpriteManager sm = SpriteManager.getInstance();
     AnimationManager am = AnimationManager.getInstance();
     Coordinate c;
-
+    private int[][] background = {
+            {0, 1, 0, 0, 1, 0, 1, 1, 0,},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {}
+    };
     private ArrayList<Coordinate> decorPos = new ArrayList<Coordinate>();
 
     public SceneDrawManager() {
@@ -23,7 +35,6 @@ public class SceneDrawManager {
                     (float) (Math.random() * (Gdx.graphics.getHeight() / 2)), 2, 2, getRandomNumber(0, 2)));
         }
     }
-
 
 
     public void drawBackground() {
@@ -56,8 +67,6 @@ public class SceneDrawManager {
             if (c.attr == 0) sm.draw("stone1", c.x, c.y, c.w, c.h);
             if (c.attr == 1) sm.draw(am.animate("stone2"), c.x, c.y, c.w, c.h);
         }
-
-
     }
 
     public int getRandomNumber(int min, int max) {

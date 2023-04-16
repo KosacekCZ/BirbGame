@@ -58,9 +58,15 @@ public class Crow extends Entity{
             // Trace breadcrumb
             Coordinate nearest = em.nearestBread(c);
             System.out.println(Math.abs(x - nearest.x) + " " + Math.abs(y - nearest.y));
+
+            // linear direction to point x (nearest)
             float direction = (float) (Math.atan2(nearest.x - x, -(nearest.y - y)) - (Math.PI / 2));
+
+            // Move player
             this.x += Math.cos(direction) * speed;
             this.y += Math.sin(direction) * speed;
+
+            // Directional animations
             if (Math.cos(direction) >= 0) {
                 sm.draw(am.animateFast("crow_walking"), x, y, scale, scale);
                 turned = false;
