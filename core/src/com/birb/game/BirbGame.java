@@ -34,6 +34,10 @@ public class BirbGame extends ApplicationAdapter {
 		sm.loadSprite("Player/pigeon_walking.png", "pigeon_walking");
 		sm.loadSprite("Player/pigeon_walking_up.png", "pigeon_walking_up");
 		sm.loadSprite("Player/pigeon_walking_down.png", "pigeon_walking_down");
+		sm.loadSprite("Entities/crow_idle.png", "crow_idle");
+		sm.loadSprite("Entities/crow_chirp.png", "crow_chirp");
+		sm.loadSprite("Entities/crow_walking.png", "crow_walking");
+		sm.loadSprite("Entities/crow_walking_down.png", "crow_walking_down");
 		sm.loadSprite("Misc/shadow.png", "shadow");
 		sm.loadSprite("Scene/grass.png", "grass");
 		sm.loadSprite("Scene/tiles.png", "pavement");

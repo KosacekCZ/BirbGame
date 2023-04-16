@@ -16,7 +16,7 @@ public class TickManager {
     public void update() {
         t = (++t % 60 == 0 ? 0 : t);
         t2 = ((t2 += 2) % 60 == 0 ? 0 : t2);
-        t3 = ((t3 += 0.03) % 6 == 0 ? 0 : t3);
+        t3 = ((t3 += 0.03) > 6 ? 0 : t3);
 
     }
 
