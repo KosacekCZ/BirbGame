@@ -82,7 +82,7 @@ public class Crow extends Entity{
                 turned = true;
             }
 
-            if ((Math.abs(x - nearest.x) < 20.0f) && (Math.abs(y - nearest.y) < 20.0f)) {
+            if ((Math.abs(x - nearest.x) < 5.0f) && (Math.abs(y - nearest.y) < 5.0f)) {
                 System.out.println("near");
                 currentAction = Action.FEED;
             }
