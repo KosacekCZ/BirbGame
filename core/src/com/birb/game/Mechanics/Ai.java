@@ -29,19 +29,7 @@ public class Ai {
             // TODO attack mechanics
         } else {
                 if (Math.random() > 0.5) {
-                    if (Math.random() > 0.5) {
-                        if (Math.random() > 0.5) {
-                            if (Gdx.graphics.getWidth() - crd.x > 10f) return Action.W_D;
-                        } else {
-                            return Action.W_A;
-                        }
-                    } else {
-                        if (Math.random() > 0.5) {
-                            if (Gdx.graphics.getHeight() - crd.y > 10f) return Action.W_W;
-                        } else {
-                            return Action.W_S;
-                        }
-                    }
+                    return Action.WANDER;
                 } else {
                     return Action.CHIRP;
                 }

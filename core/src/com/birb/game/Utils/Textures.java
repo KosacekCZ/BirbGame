@@ -27,7 +27,12 @@ public class Textures {
 
         // Level details
         sm.loadSprite("Scene/grass.png", "grass");
+        sm.loadSprite("Scene/grass2.png", "grass2");
+        sm.loadSprite("Scene/grass3.png", "grass3");
+        sm.loadSprite("Scene/grass4.png", "grass4");
         sm.loadSprite("Scene/tiles.png", "pavement");
+        sm.loadSprite("Scene/tiles2.png", "pavement2");
+        sm.loadSprite("Scene/tiles3.png", "pavement3");
         sm.loadSprite("Scene/bench.png", "bench");
         sm.loadSprite("Scene/stone1.png", "stone1");
         sm.loadSprite("Scene/stone2.png", "stone2");

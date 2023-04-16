@@ -18,6 +18,8 @@ public class Crow extends Entity{
     private final AnimationManager am = AnimationManager.getInstance();
     private Action currentAction;
     private boolean turned = false;
+    private Coordinate rPoint;
+    private Coordinate nearest;
 
     public Crow(float x, float y, float w, float h, float speed, float scale) {
         this.x = x;
@@ -45,9 +47,15 @@ public class Crow extends Entity{
         // Shadow
         sm.draw("shadow", x, y - 10f, scale, scale);
 
-        // Ai behaviour
-        if (tm.getSlowT() > 5) currentAction = ai.update(c);
+        // Ai behaviour update
+        if (tm.getSlowT() > (5f + (Math.random() * 10f))) {
+            currentAction = ai.update(c);
+            if (currentAction == Action.WANDER) rPoint = new Coordinate(100f + (float)Math.random() * 1720, 100f + (float)Math.random() * 880, 0, 0);
+            if (em.nearestBread(c).x < 2000f && em.nearestBread(c).y < 2000f) nearest = em.nearestBread(c);
+            System.out.println(currentAction);
+        }
 
+        // Ai actions
         if (currentAction == Action.IDLE) {
             sm.draw(am.animate("crow_idle"), x, y, scale, scale);
 
@@ -56,15 +64,14 @@ public class Crow extends Entity{
 
         } else if (currentAction == Action.TRACE) {
             // Trace breadcrumb
-            Coordinate nearest = em.nearestBread(c);
             System.out.println(Math.abs(x - nearest.x) + " " + Math.abs(y - nearest.y));
 
             // linear direction to point x (nearest)
             float direction = (float) (Math.atan2(nearest.x - x, -(nearest.y - y)) - (Math.PI / 2));
 
-            // Move player
-            this.x += Math.cos(direction) * speed;
-            this.y += Math.sin(direction) * speed;
+            // Move actor
+            if (x + Math.cos(direction) * speed > 100f && x + Math.cos(direction) * speed < 1820f) x += Math.cos(direction) * speed;
+            if (y + Math.sin(direction) * speed > 100f && y + Math.sin(direction) * speed < 980f) y += Math.sin(direction) * speed;
 
             // Directional animations
             if (Math.cos(direction) >= 0) {
@@ -80,6 +87,30 @@ public class Crow extends Entity{
                 currentAction = Action.FEED;
             }
 
+
+        } else if (currentAction == Action.WANDER) {
+
+            if (Math.abs(x - rPoint.x) > 10f && Math.abs(y - rPoint.y) > 10f) {
+                // linear direction to point x (random)
+                float direction = (float) (Math.atan2(rPoint.x - x, -(rPoint.y - y)) - (Math.PI / 2));
+
+                // Move actor (Slower, wandering)
+                if ((x + Math.cos(direction) * (speed / 2) > 100f) && (x + Math.cos(direction) * (speed / 2)  < 1820f)) x += Math.cos(direction) * (speed / 2);
+                if ((y + Math.sin(direction) * (speed / 2) > 100f) && (y + Math.sin(direction) * (speed / 2) < 980f)) y += Math.sin(direction) * (speed / 2);
+
+                // Directional animations
+                if (Math.cos(direction) > 0 && Math.sin(direction) <= 0.9 && Math.sin(direction) >= -0.9) {
+                    sm.draw(am.animate("crow_walking"), x, y, scale, scale);
+                } else if (Math.cos(direction) < 0 && Math.sin(direction) <= 0.9 && Math.sin(direction) >= -0.9) {
+                    sm.draw(am.animateFast("crow_walking"), x + (64 * scale), y, -scale, scale);
+                }
+            } else {
+                if (!turned) {
+                    sm.draw(am.animate("crow_idle"), x, y, scale, scale);
+                } else {
+                    sm.draw(am.animate("crow_idle"), x + (64 * scale), y, -scale, scale);
+                }
+            }
 
         } else {
             if (!turned) {
