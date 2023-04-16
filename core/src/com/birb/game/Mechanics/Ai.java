@@ -18,9 +18,11 @@ public class Ai {
     public Action update(Coordinate crd) {
         if (em.isBread()) {
             // TODO eat bred
-            if ((crd.x - em.nearestBread(crd).x > 10f) && (crd.y - em.nearestBread(crd).y > 10f)) {
+            if ((Math.abs(crd.x - em.nearestBread(crd).x) > 10f) && (Math.abs(crd.y - em.nearestBread(crd).y) > 10f)) {
+                System.out.println((crd.x - em.nearestBread(crd).x) + " X len bread, " + (crd.y - em.nearestBread(crd).y) + " Y len bread" );
                 return Action.TRACE;
             } else {
+                System.out.println((crd.x - em.nearestBread(crd).x) + " X len bread, " + (crd.y - em.nearestBread(crd).y) + " Y len bread" );
                 return Action.FEED;
             }
         } else if(Math.random() == 0.6) {

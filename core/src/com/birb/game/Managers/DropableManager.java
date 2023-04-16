@@ -25,7 +25,7 @@ public class DropableManager {
     }
 
     private void dropBreadcrumb(float spawnX, float spawnY) {
-        em.addEntity(new Breadcrumb(spawnX, spawnY, 20, 20, 2f,10, 4, 6, 1, false));
+        em.addEntity(new Breadcrumb(spawnX, spawnY, 20, 20, 1.5f,10, 4, 6, 1, false));
     }
 
 

@@ -3,6 +3,7 @@ package com.birb.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Graphics;
 import com.birb.game.Entities.Breadcrumb;
+import com.birb.game.Entities.Crow;
 import com.birb.game.Entities.Player;
 import com.birb.game.Managers.*;
 import com.badlogic.gdx.Gdx;
@@ -23,6 +24,7 @@ public class BirbGame extends ApplicationAdapter {
 		tm = TickManager.getInstance();
 		sd = SceneDrawManager.getInstance();
 		em.spawnPlayer(new Player(500, 500, 20, 20, 1.7f, 8, 100, 10));
+		em.addEntity(new Crow(200, 200, 20, 20, 7,1.7f));
 		dm = DropableManager.getInstance();
 
 
