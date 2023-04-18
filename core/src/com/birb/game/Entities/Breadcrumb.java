@@ -39,7 +39,7 @@ public class Breadcrumb extends Entity {
     public void update() {
         // Shadow
 
-        sm.draw("shadow", x , spawnY + 10f, 1f, 1f);
+        sm.draw("shadow", x - 10f , spawnY - 5f, 1f, 1f);
 
         // Bounce function
 
@@ -48,8 +48,9 @@ public class Breadcrumb extends Entity {
             if (y < this.spawnY + 10f) bounced++;
             this.x += (flipped ? 0.5*t : -0.5*t);
             t+= 0.13f;
+        } else {
+            this.y += Math.sin(tm.getGeometricT() * Math.PI) * 0.513;
         }
-        this.scale = (2 + (float)Math.abs((Math.sin(tm.getSlowT()))) / 4);
 
 
         // Draw texture

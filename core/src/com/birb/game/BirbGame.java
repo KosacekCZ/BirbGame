@@ -57,8 +57,9 @@ public class BirbGame extends ApplicationAdapter {
 
 		// Frame update
 		tm.update();
-		em.update();
 		dm.update();
+		em.update();
+
 
 
 		// Frame update end

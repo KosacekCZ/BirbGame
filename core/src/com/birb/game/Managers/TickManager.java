@@ -12,11 +12,13 @@ public class TickManager {
     private int t = 0;
     private int t2 = 0;
     private double t3 = 0;
+    private float t4 = 0;
 
     public void update() {
         t = (++t % 60 == 0 ? 0 : t);
         t2 = ((t2 += 2) % 60 == 0 ? 0 : t2);
         t3 = ((t3 += 0.03) > 15 ? 0 : t3);
+        t4 = ((t4 > 2f) ? 0 : (t4 + 0.025f));
 
     }
 
@@ -27,4 +29,5 @@ public class TickManager {
         return t2;
     }
     public double getSlowT() {return t3;}
+    public float getGeometricT() {return t4;}
 }

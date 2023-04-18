@@ -3,7 +3,11 @@ package com.birb.game.Managers;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.birb.game.Entities.Entity;
+import com.birb.game.Entities.TextureObject;
+import com.birb.game.Enums.ZIndex;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SpriteManager {
@@ -19,6 +23,7 @@ public class SpriteManager {
     }
 
     SpriteBatch batch;
+    HashMap<ZIndex, ArrayList<TextureObject>> renderLayers = new ArrayList<>;
     HashMap<String, Texture> textures = new HashMap<>();
 
     public SpriteManager(){
@@ -28,6 +33,15 @@ public class SpriteManager {
     public void loadSprite(String path, String name) {
         textures.put(name, new Texture(path));
 
+    }
+
+    public void issueDraw() {
+        renderLayers
+                .keySet()
+                .stream()
+                .sorted()
+                .map((z) -> renderLayers.get(z))
+                .forEach((x) -> x.forEach(this::draw));
     }
 
     public void draw(String name, float x, float y) {
@@ -47,6 +61,10 @@ public class SpriteManager {
         float scaleX = 1f;
         float scaleY = 1f;
         batch.draw(textureRegion, x, y, originX, originY, w, h, scaleX, scaleY, rotation);
+    }
+
+    private void draw (TextureObject tb) {
+        batch.draw((new TextureRegion(tb.getTexture())), tb.getX(), tb.getY(), (tb.getTexture().getWidth() / 2f), (tb.getTexture().getHeight() / 2f), tb.getW(), tb.getH(), 1f, 1f, tb.getRotation());
     }
 
 
