@@ -20,7 +20,7 @@ public class DropableManager {
         if (tm.getSlowT() > 14.9) {
             if (Math.random() > 0.5) {
                 // dropBreadcrumb((float)Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 200f);
-                dropBatch((int) (Math.random() * 10));
+                 dropBatch((int) (Math.random() * 10));
             }
         }
 
