@@ -32,8 +32,8 @@ public class BirbGame extends ApplicationAdapter {
 		// Temp spawns & setups
 		em.spawnPlayer(new Player(500f, 500f, 40f, 40f, 1.7f, 8, 100, 10));
 		em.addEntity(new Crow(200, 200, 40, 40, 7,1.7f));
-		em.addEntity(new Crow(200, 200, 40, 40, 7,1.7f));
-		em.addEntity(new Crow(200, 200, 40, 40, 7,1.7f));
+		em.addEntity(new Crow(700, 500, 40, 40, 7,1.7f));
+		em.addEntity(new Crow(1200, 300, 40, 40, 7,1.7f));
 
 		t.loadTextures();
 

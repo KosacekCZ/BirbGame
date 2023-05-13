@@ -42,5 +42,6 @@ public class Textures {
 
         // Misc
         sm.loadSprite("Misc/shadow.png", "shadow");
+        sm.loadSprite("Misc/debugorb.png", "deb");
     }
 }

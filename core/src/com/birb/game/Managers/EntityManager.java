@@ -67,10 +67,14 @@ public class EntityManager {
 
     public Coordinate nearestBread(Coordinate c) {
         Coordinate closest = new Coordinate(10000, 10000, 2, 2);
+        float distOrigin = (float)Math.sqrt(Math.pow(Math.abs(closest.x - c.x), 2) + Math.pow(Math.abs(closest.y - c.y), 2));
+        float distNew;
         for (Entity e: entities) {
             if (e.getType() == EntityType.BREADCRUMB) {
-                if ((Math.abs(c.x - e.getX()) + Math.abs(c.y - e.getY())) < (Math.abs(c.x - closest.x) + Math.abs(c.y - closest.y))) {
+                distNew = (float)Math.sqrt(Math.pow(Math.abs(e.getX() - c.x), 2) + Math.pow(Math.abs(e.getY() - c.y), 2));
+                if (distNew < distOrigin) {
                     closest = new Coordinate(e.getX(), e.getY(), e.getW(), e.getH());
+                    distOrigin = distNew;
                 }
             }
         }

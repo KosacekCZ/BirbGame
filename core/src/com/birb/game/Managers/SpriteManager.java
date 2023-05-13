@@ -3,7 +3,6 @@ package com.birb.game.Managers;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.birb.game.Entities.Entity;
 import com.birb.game.Entities.TextureObject;
 import com.birb.game.Enums.ZIndex;
 
@@ -23,7 +22,7 @@ public class SpriteManager {
     }
 
     SpriteBatch batch;
-    HashMap<ZIndex, ArrayList<TextureObject>> renderLayers = new ArrayList<>;
+    HashMap<ZIndex, ArrayList<TextureObject>> renderLayers = new HashMap<>();
     HashMap<String, Texture> textures = new HashMap<>();
 
     public SpriteManager(){

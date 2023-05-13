@@ -29,6 +29,8 @@ public class Crow extends Entity{
         this.speed = speed;
         this.scale = scale;
         this.ai = new Ai();
+        changeAction();
+        changeCoordinate();
     }
 
     public void update() {
@@ -49,8 +51,11 @@ public class Crow extends Entity{
 
         // Ai behaviour update
         if (tm.getSlowT() > (5f + (Math.random() * 10f))) {
-            currentAction = ai.update(c);
-            if (currentAction == Action.WANDER) rPoint = new Coordinate(100f + (float)Math.random() * 1720, 100f + (float)Math.random() * 880, 0, 0);
+            if (currentAction == Action.WANDER) {
+                if (rPoint == null) rPoint = new Coordinate(100f + (float)Math.random() * 1720, 100f + (float)Math.random() * 880, 0, 0);
+
+
+            }
             if (em.nearestBread(c).x < 2000f && em.nearestBread(c).y < 2000f) nearest = em.nearestBread(c);
             System.out.println(currentAction);
         }
@@ -61,6 +66,7 @@ public class Crow extends Entity{
 
         } else if (currentAction == Action.CHIRP) {
             sm.draw(am.animateFast("crow_chirp"), x, y, scale, scale);
+            changeAction();
 
         } else if (currentAction == Action.TRACE) {
             // Trace breadcrumb
@@ -90,7 +96,10 @@ public class Crow extends Entity{
 
         } else if (currentAction == Action.WANDER) {
 
-            if (Math.abs(x - rPoint.x) > 10f && Math.abs(y - rPoint.y) > 10f) {
+            if ((float)Math.sqrt(Math.pow(Math.abs(x - rPoint.x), 2) + Math.pow(Math.abs(y - rPoint.y), 2)) > 5f ) {
+                // Debug
+                sm.draw("deb", rPoint.x, rPoint.y, 1f, 1f);
+
                 // linear direction to point x (random)
                 float direction = (float) (Math.atan2(rPoint.x - x, -(rPoint.y - y)) - (Math.PI / 2));
 
@@ -105,6 +114,11 @@ public class Crow extends Entity{
                     sm.draw(am.animateFast("crow_walking"), x + (64 * scale), y, -scale, scale);
                 }
             } else {
+                // Change action on success
+                changeAction();
+                changeCoordinate();
+
+                // Draw něco ěco
                 if (!turned) {
                     sm.draw(am.animate("crow_idle"), x, y, scale, scale);
                 } else {
@@ -120,6 +134,14 @@ public class Crow extends Entity{
             }
 
         }
+    }
+
+    private void changeAction() {
+        currentAction = ai.update(new Coordinate(x, y, w, h));
+    }
+
+    private void changeCoordinate() {
+        rPoint = new Coordinate(100f + (float)Math.random() * 1720, 100f + (float)Math.random() * 880, 0, 0);
     }
 
     public void onCollide(Entity e) {

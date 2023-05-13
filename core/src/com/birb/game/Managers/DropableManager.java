@@ -1,10 +1,6 @@
 package com.birb.game.Managers;
-
-import com.badlogic.gdx.Gdx;
 import com.birb.game.Entities.Breadcrumb;
-import com.birb.game.Entities.Entity;
 
-import javax.naming.spi.NamingManager;
 
 public class DropableManager {
     public static DropableManager instance;
@@ -19,8 +15,8 @@ public class DropableManager {
     public void update() {
         if (tm.getSlowT() > 14.9) {
             if (Math.random() > 0.5) {
-                // dropBreadcrumb((float)Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 200f);
-                 dropBatch((int) (Math.random() * 10));
+                //dropBreadcrumb((float)Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 200f);
+                dropBatch((int) (Math.random() * 10));
             }
         }
 
