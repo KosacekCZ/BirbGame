@@ -24,17 +24,17 @@ public class DropableManager {
     }
 
     private void dropBreadcrumb(float spawnX, float spawnY) {
-        em.addEntity(new Breadcrumb(spawnX, spawnY, 20, 20, 1.5f,10, 4, 6, 1, false, 0.13f));
+        em.addEntity(new Breadcrumb(spawnX, spawnY, 20, 20, 1.2f,10, 4, 6, 1, false, 0.13f));
     }
 
     private void dropBreadcrumb(float spawnX, float spawnY, int lifetime, int bounces, int curveHeight, double curveSpread, boolean isFlipped, float fallSpread) {
-        em.addEntity(new Breadcrumb(spawnX, spawnY, 20, 20, 1.5f,lifetime, bounces, curveHeight, curveSpread, isFlipped, fallSpread));
+        em.addEntity(new Breadcrumb(spawnX, spawnY, 20, 20, 1.2f,lifetime, bounces, curveHeight, curveSpread, isFlipped, fallSpread));
     }
 
     private void dropBatch(int amount) {
         for (int i = 0; i <= amount; i++) {
             dropBreadcrumb(
-                    500f + (float) Math.random() * 100f,
+                    500f + (float) Math.random() * 500f,
                     500f + (float) Math.random() * 200f,
                     10 + (int) (Math.random() * 5),
                     3 + (int) (Math.random() * 3),

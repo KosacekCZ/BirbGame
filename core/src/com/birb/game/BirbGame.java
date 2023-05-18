@@ -52,6 +52,7 @@ public class BirbGame extends ApplicationAdapter {
 		sm.batchBegin();
 		// Frame update start
 
+
 		// Draw background
 		sd.drawBackground();
 
@@ -62,8 +63,10 @@ public class BirbGame extends ApplicationAdapter {
 
 
 
+		sm.issueDraw();
 		// Frame update end
 		sm.batchEnd();
+
 
 		if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) Gdx.app.exit();
 	}

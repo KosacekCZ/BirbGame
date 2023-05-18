@@ -16,15 +16,14 @@ public class Ai {
     }
 
     public Action update(Coordinate crd) {
-        if (em.isBread()) {
-            // TODO eat bred
-            if ((Math.abs(crd.x - em.nearestBread(crd).x) > 10f) && (Math.abs(crd.y - em.nearestBread(crd).y) > 10f)) {
-                System.out.println((crd.x - em.nearestBread(crd).x) + " X len bread, " + (crd.y - em.nearestBread(crd).y) + " Y len bread" );
+        if (em.isBread() && Math.random() > 0.2) {
+            //TODO: eat bread
+            if (Math.abs(em.nearestBread(crd).x) > 1f && Math.abs(em.nearestBread(crd).y) > 1f) {
                 return Action.TRACE;
             } else {
-                System.out.println((crd.x - em.nearestBread(crd).x) + " X len bread, " + (crd.y - em.nearestBread(crd).y) + " Y len bread" );
                 return Action.FEED;
             }
+
         } else if(Math.random() == 0.6) {
             // TODO attack mechanics
         } else {
@@ -36,7 +35,4 @@ public class Ai {
             }
         return Action.IDLE;
     }
-
-
-
 }

@@ -2,6 +2,7 @@ package com.birb.game.Entities;
 
 import com.birb.game.Enums.Action;
 import com.birb.game.Enums.EntityType;
+import com.birb.game.Enums.ZI;
 import com.birb.game.Managers.AnimationManager;
 import com.birb.game.Managers.EntityManager;
 import com.birb.game.Managers.SpriteManager;
@@ -47,30 +48,51 @@ public class Crow extends Entity{
 
 
         // Shadow
-        sm.draw("shadow", x, y - 10f, scale, scale);
+        sm.draw("shadow", x, y - 10f, scale, scale, ZI.SHADOW);
 
         // Ai behaviour update
+        updateBehaviour();
+
+        // Ai actions
+        executeBehaviour();
+        }
+
+    private void changeAction() {
+        currentAction = ai.update(new Coordinate(x, y, w, h));
+    }
+
+    private void changeCoordinate() {
+        rPoint = new Coordinate(100f + (float)Math.random() * 1720, 100f + (float)Math.random() * 880, 0, 0);
+    }
+
+    private void updateBehaviour() {
+        Coordinate c = new Coordinate(x, y, w, h);
         if (tm.getSlowT() > (5f + (Math.random() * 10f))) {
             if (currentAction == Action.WANDER) {
                 if (rPoint == null) rPoint = new Coordinate(100f + (float)Math.random() * 1720, 100f + (float)Math.random() * 880, 0, 0);
 
 
             }
-            if (em.nearestBread(c).x < 2000f && em.nearestBread(c).y < 2000f) nearest = em.nearestBread(c);
+            if (em.nearestBread(c).x < 2000f && em.nearestBread(c).y < 2000f) {
+                nearest = em.nearestBread(c);
+            } else {
+                ai.update(c);
+            }
             System.out.println(currentAction);
         }
+    }
 
-        // Ai actions
+    private void executeBehaviour() {
         if (currentAction == Action.IDLE) {
-            sm.draw(am.animate("crow_idle"), x, y, scale, scale);
+            sm.draw(am.animate("crow_idle"), x, y, scale, scale, 0, ZI.ENTITIES);
 
         } else if (currentAction == Action.CHIRP) {
-            sm.draw(am.animateFast("crow_chirp"), x, y, scale, scale);
+            sm.draw(am.animateFast("crow_chirp"), x, y, scale, scale, 0, ZI.ENTITIES);
             changeAction();
 
         } else if (currentAction == Action.TRACE) {
             // Trace breadcrumb
-            System.out.println(Math.abs(x - nearest.x) + " " + Math.abs(y - nearest.y));
+            // System.out.println(Math.abs(x - nearest.x) + " " + Math.abs(y - nearest.y));
 
             // linear direction to point x (nearest)
             float direction = (float) (Math.atan2(nearest.x - x, -(nearest.y - y)) - (Math.PI / 2));
@@ -81,16 +103,18 @@ public class Crow extends Entity{
 
             // Directional animations
             if (Math.cos(direction) >= 0) {
-                sm.draw(am.animateFast("crow_walking"), x, y, scale, scale);
+                sm.draw(am.animateFast("crow_walking"), x, y, scale, scale, 0, ZI.ENTITIES);
                 turned = false;
             } else {
-                sm.draw(am.animateFast("crow_walking"), x + (64 * scale), y, -scale, scale);
+                sm.draw(am.animateFast("crow_walking"), x + (64 * scale), y, -scale, scale, 0, ZI.ENTITIES);
                 turned = true;
             }
 
             if ((Math.abs(x - nearest.x) < 5.0f) && (Math.abs(y - nearest.y) < 5.0f)) {
                 System.out.println("near");
                 currentAction = Action.FEED;
+            } else {
+                currentAction = Action.TRACE;
             }
 
 
@@ -98,20 +122,20 @@ public class Crow extends Entity{
 
             if ((float)Math.sqrt(Math.pow(Math.abs(x - rPoint.x), 2) + Math.pow(Math.abs(y - rPoint.y), 2)) > 5f ) {
                 // Debug
-                sm.draw("deb", rPoint.x, rPoint.y, 1f, 1f);
+                sm.draw("deb", rPoint.x, rPoint.y, 1f, 1f, ZI.DROPABLE);
 
                 // linear direction to point x (random)
                 float direction = (float) (Math.atan2(rPoint.x - x, -(rPoint.y - y)) - (Math.PI / 2));
 
                 // Move actor (Slower, wandering)
-                if ((x + Math.cos(direction) * (speed / 2) > 100f) && (x + Math.cos(direction) * (speed / 2)  < 1820f)) x += Math.cos(direction) * (speed / 2);
-                if ((y + Math.sin(direction) * (speed / 2) > 100f) && (y + Math.sin(direction) * (speed / 2) < 980f)) y += Math.sin(direction) * (speed / 2);
+                if ((x + Math.cos(direction) * (speed / 2) > 100f) && (x + Math.cos(direction) * (speed / 2.3f)  < 1820f)) x += Math.cos(direction) * (speed / 2);
+                if ((y + Math.sin(direction) * (speed / 2) > 100f) && (y + Math.sin(direction) * (speed / 2.3f) < 980f)) y += Math.sin(direction) * (speed / 2);
 
                 // Directional animations
                 if (Math.cos(direction) > 0 && Math.sin(direction) <= 0.9 && Math.sin(direction) >= -0.9) {
-                    sm.draw(am.animate("crow_walking"), x, y, scale, scale);
+                    sm.draw(am.animate("crow_walking"), x, y, scale, scale, 0, ZI.ENTITIES);
                 } else if (Math.cos(direction) < 0 && Math.sin(direction) <= 0.9 && Math.sin(direction) >= -0.9) {
-                    sm.draw(am.animateFast("crow_walking"), x + (64 * scale), y, -scale, scale);
+                    sm.draw(am.animateFast("crow_walking"), x + (64 * scale), y, -scale, scale, 0, ZI.ENTITIES);
                 }
             } else {
                 // Change action on success
@@ -120,28 +144,26 @@ public class Crow extends Entity{
 
                 // Draw něco ěco
                 if (!turned) {
-                    sm.draw(am.animate("crow_idle"), x, y, scale, scale);
+                    sm.draw(am.animate("crow_idle"), x, y, scale, scale, 0, ZI.ENTITIES);
                 } else {
-                    sm.draw(am.animate("crow_idle"), x + (64 * scale), y, -scale, scale);
+                    sm.draw(am.animate("crow_idle"), x + (64 * scale), y, -scale, scale, 0, ZI.ENTITIES);
                 }
             }
 
+        } else if (currentAction == Action.FEED) {
+            sm.draw(am.animateFast("crow_chirp"), x, y, scale, scale, 0, ZI.ENTITIES);
+            if (tm.getSlowT() > 2.0f) {
+                ai.update(new Coordinate(x, y, w, h));
+                System.out.println("Action changed");
+            }
         } else {
             if (!turned) {
-                sm.draw(am.animate("crow_idle"), x, y, scale, scale);
+                sm.draw(am.animate("crow_idle"), x, y, scale, scale, 0, ZI.ENTITIES);
             } else {
-                sm.draw(am.animate("crow_idle"), x + (64 * scale), y, -scale, scale);
+                sm.draw(am.animate("crow_idle"), x + (64 * scale), y, -scale, scale, 0, ZI.ENTITIES);
             }
 
         }
-    }
-
-    private void changeAction() {
-        currentAction = ai.update(new Coordinate(x, y, w, h));
-    }
-
-    private void changeCoordinate() {
-        rPoint = new Coordinate(100f + (float)Math.random() * 1720, 100f + (float)Math.random() * 880, 0, 0);
     }
 
     public void onCollide(Entity e) {

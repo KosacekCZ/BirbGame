@@ -1,7 +1,7 @@
 package com.birb.game.Entities;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.birb.game.Enums.ZIndex;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.birb.game.Enums.ZI;
 
 public class TextureObject {
     private float x;
@@ -9,10 +9,10 @@ public class TextureObject {
     private float w;
     private float h;
     private float rotation;
-    private Texture texture;
-    private ZIndex zindex;
+    private TextureRegion texture;
+    private ZI zindex;
 
-    public TextureObject(float x, float y, float w, float h, float rotation, Texture texture, ZIndex zindex) {
+    public TextureObject(TextureRegion texture, float x, float y, float w, float h, float rotation, ZI zindex) {
         this.x = x;
         this.y = y;
         this.w = w;
@@ -42,15 +42,20 @@ public class TextureObject {
         return rotation;
     }
 
-    public Texture getTexture() {
+    public TextureRegion getTexture() {
         return texture;
     }
 
-    public ZIndex getZindex() {
+    public ZI getZindex() {
         return zindex;
     }
 
-    public void setZindex(ZIndex zindex) {
+    public void setZindex(ZI zindex) {
         this.zindex = zindex;
+    }
+
+    @Override
+    public String toString() {
+        return texture.toString();
     }
 }

@@ -3,6 +3,7 @@ package com.birb.game.Entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.birb.game.Enums.EntityType;
+import com.birb.game.Enums.ZI;
 import com.birb.game.Managers.AnimationManager;
 import com.birb.game.Managers.SpriteManager;
 
@@ -27,7 +28,7 @@ public class Player extends Entity{
     }
 
     public void update() {
-        sm.draw("shadow", x+3f, y-10f, 1.5f, 1.5f);
+        sm.draw("shadow", x+4f, y-10f, 1.5f, 1.5f, ZI.SHADOW);
         boolean movedOnX = false;
         boolean movedOnY = false;
         float ww = Gdx.graphics.getWidth() * 0.93f;
@@ -36,20 +37,20 @@ public class Player extends Entity{
 
         // Movement
         if (Gdx.input.isKeyPressed(Input.Keys.D) && !(Gdx.input.isKeyPressed(Input.Keys.A))) {
-            sm.draw(am.animateFast("pigeon_walking"), x, y, scale, scale);
+            sm.draw(am.animateFast("pigeon_walking"), x, y, scale, scale, ZI.PLAYER);
             flipped = false;
         }
         else if (Gdx.input.isKeyPressed(Input.Keys.A) && !(Gdx.input.isKeyPressed(Input.Keys.D))) {
-            sm.draw(am.animateFast("pigeon_walking"), x + (64 * scale), y, -scale, scale);
+            sm.draw(am.animateFast("pigeon_walking"), x + (64 * scale), y, -scale, scale, ZI.PLAYER);
             flipped = true;
         }
         else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            sm.draw(am.animateFast("pigeon_walking_up"), x, y, scale, scale);
+            sm.draw(am.animateFast("pigeon_walking_up"), x, y, scale, scale, ZI.PLAYER);
         }
         else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            sm.draw(am.animateFast("pigeon_walking_down"), x, y, scale, scale);
+            sm.draw(am.animateFast("pigeon_walking_down"), x, y, scale, scale, ZI.PLAYER);
         } else {
-            sm.draw(am.animate("pigeon_still"), (flipped ? x + (64 * scale) : x), y, (flipped ? -scale : scale), scale);
+            sm.draw(am.animate("pigeon_still"), (flipped ? x + (64 * scale) : x), y, (flipped ? -scale : scale), scale, ZI.PLAYER);
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.W) && yVelocity < 1 && y < wh) {

@@ -1,6 +1,7 @@
 package com.birb.game.Entities;
 
 import com.birb.game.Enums.EntityType;
+import com.birb.game.Enums.ZI;
 import com.birb.game.Managers.SpriteManager;
 import com.birb.game.Managers.TickManager;
 import com.birb.game.Utils.Coordinate;
@@ -39,7 +40,7 @@ public class Breadcrumb extends Entity {
     public void update() {
         // Shadow
 
-        sm.draw("shadow", x - 10f , spawnY - 5f, 1f, 1f);
+        sm.draw("shadow", x - 10f , spawnY - 5f, 1f, 1f, ZI.SHADOW);
 
         // Bounce function
 
@@ -54,7 +55,7 @@ public class Breadcrumb extends Entity {
 
 
         // Draw texture
-        sm.draw("breadcrumb1", this.x, this.y, this.scale, this.scale);
+        sm.draw("breadcrumb1", this.x, this.y, this.scale, this.scale, ZI.DROPABLE);
     }
 
     public void onCollide(Entity e) {
