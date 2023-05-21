@@ -9,6 +9,7 @@ import com.birb.game.Managers.SpriteManager;
 import com.birb.game.Managers.TickManager;
 import com.birb.game.Mechanics.Ai;
 import com.birb.game.Utils.Coordinate;
+import com.birb.game.Utils.Font;
 
 public class Crow extends Entity{
 
@@ -21,6 +22,8 @@ public class Crow extends Entity{
     private boolean turned = false;
     private Coordinate rPoint;
     private Coordinate nearest;
+    private Coordinate c;
+    private int cooldown = 0;
 
     public Crow(float x, float y, float w, float h, float speed, float scale) {
         this.x = x;
@@ -30,13 +33,13 @@ public class Crow extends Entity{
         this.speed = speed;
         this.scale = scale;
         this.ai = new Ai();
-        changeAction();
         changeCoordinate();
     }
 
     public void update() {
         // Current position of actor
-        Coordinate c = new Coordinate(x, y, w, h);
+        c = new Coordinate(x, y, w, h, 0, currentAction);
+        nearest = em.nearestBread(c);
 
         // -- DEBUG --
         //System.out.println(currentAction);
@@ -46,40 +49,26 @@ public class Crow extends Entity{
 
         // -- DEBUG END --
 
+        cooldown = (tm.getT() % 60 == 0 ? cooldown + 1 : cooldown);
+
+        if (cooldown == 5) {
+            currentAction = ai.update(c);
+            cooldown = 0;
+            Font.draw(currentAction.toString(), 32, 100, 100);
+        }
+
 
         // Shadow
         sm.draw("shadow", x, y - 10f, scale, scale, ZI.SHADOW);
 
         // Ai behaviour update
-        updateBehaviour();
 
         // Ai actions
         executeBehaviour();
         }
 
-    private void changeAction() {
-        currentAction = ai.update(new Coordinate(x, y, w, h));
-    }
-
     private void changeCoordinate() {
         rPoint = new Coordinate(100f + (float)Math.random() * 1720, 100f + (float)Math.random() * 880, 0, 0);
-    }
-
-    private void updateBehaviour() {
-        Coordinate c = new Coordinate(x, y, w, h);
-        if (tm.getSlowT() > (5f + (Math.random() * 10f))) {
-            if (currentAction == Action.WANDER) {
-                if (rPoint == null) rPoint = new Coordinate(100f + (float)Math.random() * 1720, 100f + (float)Math.random() * 880, 0, 0);
-
-
-            }
-            if (em.nearestBread(c).x < 2000f && em.nearestBread(c).y < 2000f) {
-                nearest = em.nearestBread(c);
-            } else {
-                ai.update(c);
-            }
-            System.out.println(currentAction);
-        }
     }
 
     private void executeBehaviour() {
@@ -88,9 +77,8 @@ public class Crow extends Entity{
 
         } else if (currentAction == Action.CHIRP) {
             sm.draw(am.animateFast("crow_chirp"), x, y, scale, scale, 0, ZI.ENTITIES);
-            changeAction();
 
-        } else if (currentAction == Action.TRACE) {
+        } else if (currentAction == Action.TRACE && em.nearestBread(c).x < 2000f && em.nearestBread(c).y < 2000f) {
             // Trace breadcrumb
             // System.out.println(Math.abs(x - nearest.x) + " " + Math.abs(y - nearest.y));
 
@@ -139,7 +127,6 @@ public class Crow extends Entity{
                 }
             } else {
                 // Change action on success
-                changeAction();
                 changeCoordinate();
 
                 // Draw něco ěco
@@ -164,6 +151,11 @@ public class Crow extends Entity{
             }
 
         }
+    }
+
+    @Override
+    public String toString() {
+        return currentAction + ": " + cooldown;
     }
 
     public void onCollide(Entity e) {

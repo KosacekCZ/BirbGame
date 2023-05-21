@@ -8,7 +8,7 @@ project.ext.assetsDir = new File("../assets")
 import org.gradle.internal.os.OperatingSystem
 
 task run(dependsOn: classes, type: JavaExec) {
-    mainClass = project.mainClassName
+    mainClass = 'com.birb.game.DesktopLauncher'
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     workingDir = project.assetsDir

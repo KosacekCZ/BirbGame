@@ -21,7 +21,7 @@ public class SpriteManager {
         return instance;
     }
 
-    SpriteBatch batch;
+    public SpriteBatch batch;
     HashMap<ZI, ArrayList<TextureObject>> renderLayers = new HashMap<>();
     HashMap<String, Texture> textures = new HashMap<>();
 
@@ -36,17 +36,6 @@ public class SpriteManager {
         textures.put(name, new Texture(path));
 
     }
-
-    /*public void issueDraw () {
-        for (ZIndex i: ZIndex.values()) {
-            renderLayers.get(i).forEach(textureObject -> batch.draw(textureObject.getTexture(),
-                                                                    textureObject.getX(),
-                                                                    textureObject.getY(),
-                                                                    textureObject.getW() * 64f,
-                                                                    textureObject.getH() * 64f));
-            System.out.println(renderLayers.get(i).size());
-        }
-    }*/
 
     public void issueDraw() {
         renderLayers
@@ -90,6 +79,7 @@ public class SpriteManager {
     public void draw(TextureRegion texture, float x, float y, float w, float h, ZI i) {
         renderLayers.get(i).add(new TextureObject(texture, x, y, w, h, 0, i));
     }
+
 
 
     public void batchBegin() {

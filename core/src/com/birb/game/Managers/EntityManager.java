@@ -6,6 +6,8 @@ import com.birb.game.Enums.*;
 import com.birb.game.Utils.Coordinate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 public class EntityManager {
     private final ArrayList<Entity> entities = new ArrayList<>();
@@ -47,6 +49,10 @@ public class EntityManager {
         entities.removeIf(Entity::isDestroy);
         entities.addAll(tempBuffer);
         tempBuffer.clear();
+    }
+
+    public Stream<Entity> getCrows() {
+        return entities.stream().filter(entity -> entity.getType() == EntityType.CROW);
     }
 
     public Player getPlayer() {

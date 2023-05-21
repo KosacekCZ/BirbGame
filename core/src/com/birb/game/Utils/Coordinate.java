@@ -10,6 +10,13 @@ public class Coordinate {
     public float dir;
     public int attr;
     public Action action;
+    public String data;
+
+    public Coordinate(float x, float y, String data) {
+        this.x = x;
+        this.y = y;
+        this.data = data;
+    }
 
     public Coordinate(float x, float y, float w, float h) {
         this.x = x;

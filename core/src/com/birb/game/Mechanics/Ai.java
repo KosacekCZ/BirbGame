@@ -18,12 +18,13 @@ public class Ai {
 
     public Action update(Coordinate crd) {
         // Base tree
-        if (em.isBread() && crd.action == Action.IDLE) {
+        if (em.isBread() && crd.action == Action.IDLE || crd.action == null) {
             // Decision : ?trace
+            System.out.println(dist(crd, em.nearestBread(crd))[0] + ", " + dist(crd, em.nearestBread(crd))[1]);
             if (dist(crd, em.nearestBread(crd))[0] > 1f &&
                     dist(crd, em.nearestBread(crd))[1] > 1f &&
                     dist(crd, em.nearestBread(crd))[0] < 1000f &&
-                    dist(crd, em.nearestBread(crd))[1] > 1000f &&
+                    dist(crd, em.nearestBread(crd))[1] < 1000f &&
                     crd.action != Action.TRACE) {
                 return Action.TRACE;
             }
@@ -41,7 +42,7 @@ public class Ai {
             return (Math.random() > 0.5 ? Action.CHIRP : Action.IDLE);
         }
         // Default
-        return (Math.random() > 0.5 ? Action.CHIRP : Action.IDLE);
+        return (Math.random() > 0.7 ? Action.CHIRP : Action.IDLE);
     }
 
     private float[] dist(Coordinate c1, Coordinate c2) {
