@@ -4,7 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.birb.game.Enums.ZI;
 import com.birb.game.Utils.Coordinate;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class SceneDrawManager {
     public static SceneDrawManager instance;
@@ -13,9 +16,13 @@ public class SceneDrawManager {
         return instance;
     }
 
+    File decors;
+
     SpriteManager sm = SpriteManager.getInstance();
     AnimationManager am = AnimationManager.getInstance();
     Coordinate c;
+
+
 
     // Teselace xd
     private int[][] background = {
@@ -40,6 +47,13 @@ public class SceneDrawManager {
     private ArrayList<Coordinate> decorPos = new ArrayList<Coordinate>();
 
     public SceneDrawManager() {
+        // Load decors file
+        try {
+            decors = new File("assets/Out/Decorations.txt");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
         for (int i = 0; i < 20; i++) {
             decorPos.add(new Coordinate((float) (Math.random() * Gdx.graphics.getWidth()),
                     (float) (Math.random() * (Gdx.graphics.getHeight() / 2)), 2, 2, getRandomNumber(0, 2)));
@@ -104,6 +118,22 @@ public class SceneDrawManager {
             }
         }
 
+        // Leafs n shit
+        try {
+            Scanner sc = new Scanner(decors);
+            while (sc.hasNextLine()) {
+                String[] line = sc.nextLine().split(",");
+                if (line[2].trim().equals("flower_1") || line[2].trim().equals("flower_2")) {
+                    sm.draw(am.animate(line[2].trim()), Float.parseFloat(line[0]) - 50f, Gdx.graphics.getHeight() - Float.parseFloat(line[1]) - 50f, 2, 2, ZI.DECOR);
+                } else {
+                    sm.draw(line[2].trim(), Float.parseFloat(line[0]) - 50f, Gdx.graphics.getHeight() - Float.parseFloat(line[1]) - 50f, 2, 2, ZI.DECOR);
+                }
+                // System.out.println("drawn" + line[2] + " at " + line[0] + ", " + line[1]);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+
         // Bench
         sm.draw("bench", (Gdx.graphics.getWidth() / 2) - 256, Gdx.graphics.getHeight() - 128, 6, 2, ZI.DECOR);
 
@@ -113,6 +143,8 @@ public class SceneDrawManager {
             if (c.attr == 0) sm.draw("stone1", c.x, c.y, c.w, c.h, ZI.DECOR);
             if (c.attr == 1) sm.draw(am.animate("stone2"), c.x, c.y, c.w, c.h, 0, ZI.DECOR);
         }
+
+
     }
 
     public int getRandomNumber(int min, int max) {

@@ -36,6 +36,14 @@ public class Textures {
         sm.loadSprite("Scene/bench.png", "bench");
         sm.loadSprite("Scene/stone1.png", "stone1");
         sm.loadSprite("Scene/stone2.png", "stone2");
+        sm.loadSprite("Scene/flower_1.png", "flower_1");
+        sm.loadSprite("Scene/flower_2.png", "flower_2");
+        sm.loadSprite("Scene/leaf1_green.png", "leaf1_green");
+        sm.loadSprite("Scene/leaf1_orange.png", "leaf1_orange");
+        sm.loadSprite("Scene/leaf1_yellow.png", "leaf1_yellow");
+        sm.loadSprite("Scene/leaf2_green.png", "leaf2_green");
+        sm.loadSprite("Scene/leaf2_orange.png", "leaf2_orange");
+        sm.loadSprite("Scene/leaf2_yellow.png", "leaf2_yellow");
 
         // Items
         sm.loadSprite("Misc/breadcrumb_1.png", "breadcrumb1");

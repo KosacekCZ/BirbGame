@@ -13,6 +13,8 @@ public class Player extends Entity{
     private float xVelocity = 0;
     private float yVelocity = 0;
     private float acceleration = 0.1f;
+    private boolean isAttacking = false;
+    private int attackCooldown = 0;
 
     SpriteManager sm = SpriteManager.getInstance();
     AnimationManager am = AnimationManager.getInstance();
@@ -29,6 +31,8 @@ public class Player extends Entity{
 
     public void update() {
         sm.draw("shadow", x+4f, y-10f, 1.5f, 1.5f, ZI.SHADOW);
+
+        // Velocity parameters init
         boolean movedOnX = false;
         boolean movedOnY = false;
         float ww = Gdx.graphics.getWidth() * 0.93f;
@@ -79,12 +83,37 @@ public class Player extends Entity{
         x += xVelocity * speed;
         y += yVelocity * speed;
 
+        // End movement
+
+        // Attack check
+        pushAttack();
+
+        // Attack update
+
+        attackCooldown -= (attackCooldown > 0 ? 1 : 0);
+        isAttacking = attackCooldown > 0;
+
+
 
 
     }
 
+    private void pushAttack() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            attackCooldown = 20;
+        }
+    }
+
     public void onCollide(Entity e) {
 
+    }
+
+    public boolean isAttacking() {
+        return isAttacking;
+    }
+
+    public String toString() {
+        return "Player: ATC: [" + attackCooldown + "], ?AT: [" + isAttacking() + "]";
     }
 
     public EntityType getType() {

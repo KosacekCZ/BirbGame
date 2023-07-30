@@ -9,20 +9,21 @@ public abstract class Entity {
     protected float h;
     protected float scale;
     protected float speed;
-    protected boolean destroy = false;
+    protected boolean isDestroyed = false;
     protected int health;
     protected int damage;
+    protected boolean isAttacking = false;
 
     public abstract void update();
 
     public abstract void onCollide(Entity e);
 
     public void destroy() {
-        destroy = true;
+        isDestroyed = true;
     }
 
-    public boolean isDestroy() {
-        return destroy;
+    public boolean isDestroyed() {
+        return isDestroyed;
     }
 
     public abstract EntityType getType();
@@ -41,5 +42,9 @@ public abstract class Entity {
 
     public float getH() {
         return h;
+    }
+
+    public boolean isAttacking() {
+        return isAttacking;
     }
 }

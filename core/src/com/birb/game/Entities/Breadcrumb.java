@@ -5,6 +5,7 @@ import com.birb.game.Enums.ZI;
 import com.birb.game.Managers.SpriteManager;
 import com.birb.game.Managers.TickManager;
 import com.birb.game.Utils.Coordinate;
+import com.birb.game.Utils.Font;
 
 public class Breadcrumb extends Entity {
 
@@ -18,6 +19,8 @@ public class Breadcrumb extends Entity {
     private final double curveSpread;
     private final boolean flipped;
     private final float fallspread;
+    private int bites;
+    private int tempCtdSwitcher = 0;
 
     public Breadcrumb(float x, float y, float w, float h, float scale, int lifetime, int bounces, int curveHeight, double curveSpread, boolean flipped, float fallSpread) {
         this.x = x;
@@ -32,6 +35,7 @@ public class Breadcrumb extends Entity {
         this.curveSpread = curveSpread; // smrt
         this.flipped = flipped; // direction of fall
         this.fallspread = fallSpread; // 0.1 ~ 0.3
+        this.bites = 5;
 
     }
 
@@ -53,13 +57,23 @@ public class Breadcrumb extends Entity {
             this.y += Math.sin(tm.getGeometricT() * Math.PI) * 0.513;
         }
 
+        if (tm.getT() > 55) {
+            bites -= tempCtdSwitcher;
+        }
+
 
         // Draw texture
         sm.draw("breadcrumb1", this.x, this.y, this.scale, this.scale, ZI.DROPABLE);
+        Font.draw(String.valueOf(bites), 10, this.x, this.y + 10);
     }
 
     public void onCollide(Entity e) {
-        if (e.getType() != EntityType.BREADCRUMB) destroy();
+        if (e.getType() != EntityType.BREADCRUMB) {
+            tempCtdSwitcher = 1;
+            if (bites < 0) {
+                destroy();
+            }
+        }
     }
 
     public EntityType getType() {

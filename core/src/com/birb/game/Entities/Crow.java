@@ -1,5 +1,6 @@
 package com.birb.game.Entities;
 
+import com.badlogic.gdx.Gdx;
 import com.birb.game.Enums.Action;
 import com.birb.game.Enums.EntityType;
 import com.birb.game.Enums.ZI;
@@ -10,6 +11,7 @@ import com.birb.game.Managers.TickManager;
 import com.birb.game.Mechanics.Ai;
 import com.birb.game.Utils.Coordinate;
 import com.birb.game.Utils.Font;
+import com.birb.game.Utils.Amath;
 
 public class Crow extends Entity{
 
@@ -23,7 +25,11 @@ public class Crow extends Entity{
     private Coordinate rPoint;
     private Coordinate nearest;
     private Coordinate c;
+    private float pushVelocity = 0f;
+    private float throwDirection = 0;
+
     private int cooldown = 0;
+    private final int selfTickRate;
 
     public Crow(float x, float y, float w, float h, float speed, float scale) {
         this.x = x;
@@ -32,6 +38,7 @@ public class Crow extends Entity{
         this.h = h;
         this.speed = speed;
         this.scale = scale;
+        this.selfTickRate = Amath.getRandomNumber(3,5) + Amath.getRandomNumber(1,5);
         this.ai = new Ai();
         changeCoordinate();
     }
@@ -40,6 +47,17 @@ public class Crow extends Entity{
         // Current position of actor
         c = new Coordinate(x, y, w, h, 0, currentAction);
         nearest = em.nearestBread(c);
+
+        // Colision movement handling
+        if (x > 100 && x < Gdx.graphics.getWidth() - 100 && y > 100 && y < Gdx.graphics.getHeight() - 100) {
+            x -= Math.cos(throwDirection) * pushVelocity;
+            y -= Math.sin(throwDirection) * pushVelocity;
+
+            pushVelocity *= (pushVelocity > 0.25 ? 0.85 : 0);
+
+        } else {
+            pushVelocity = 0;
+        }
 
         // -- DEBUG --
         //System.out.println(currentAction);
@@ -51,7 +69,7 @@ public class Crow extends Entity{
 
         cooldown = (tm.getT() % 60 == 0 ? cooldown + 1 : cooldown);
 
-        if (cooldown == 5) {
+        if (cooldown ==  selfTickRate) {
             currentAction = ai.update(c);
             cooldown = 0;
             Font.draw(currentAction.toString(), 32, 100, 100);
@@ -155,11 +173,18 @@ public class Crow extends Entity{
 
     @Override
     public String toString() {
-        return currentAction + ": " + cooldown;
+        return currentAction + ": " + cooldown + ", phVel [" + pushVelocity + "]";
     }
 
     public void onCollide(Entity e) {
+        if (e.getType().equals(EntityType.PLAYER)) {
+            if (e.isAttacking()) {
+                throwDirection = (float) (Math.atan2(e.getX() - x, -(e.getY() - y)) - (Math.PI / 2));
+                pushVelocity = 18;
+            }
 
+
+        }
     }
 
     public EntityType getType() {

@@ -39,6 +39,26 @@ public class PlacementHelper {
                 placements.add(new Coordinate(Gdx.input.getX(), Gdx.input.getY(), "leaf1_green"));
             }
 
+            if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_4)) {
+                placements.add(new Coordinate(Gdx.input.getX(), Gdx.input.getY(), "leaf1_yellow"));
+            }
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_5)) {
+                placements.add(new Coordinate(Gdx.input.getX(), Gdx.input.getY(), "leaf1_orange"));
+            }
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_6)) {
+                placements.add(new Coordinate(Gdx.input.getX(), Gdx.input.getY(), "leaf2_green"));
+            }
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_7)) {
+                placements.add(new Coordinate(Gdx.input.getX(), Gdx.input.getY(), "leaf2_yellow"));
+            }
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_8)) {
+                placements.add(new Coordinate(Gdx.input.getX(), Gdx.input.getY(), "leaf2_orange"));
+            }
+
 
         }
 
@@ -57,11 +77,11 @@ public class PlacementHelper {
         try {
             File file = new File("assets/Out/Decorations.txt");
             FileWriter fw = new FileWriter("assets/Out/Decorations.txt");
-            fw.append("{ \n");
+            //fw.append("{ \n");
             for (Coordinate c : placements) {
-                fw.append(c.x + ", " + c.y + ", " + c.data + "; \n");
+                fw.append(c.x + ", " + c.y + ", " + c.data + "\n");
             }
-            fw.append("};");
+            //fw.append("};");
             fw.close();
         } catch (Exception e) {
             System.out.println("!" + e.getMessage());

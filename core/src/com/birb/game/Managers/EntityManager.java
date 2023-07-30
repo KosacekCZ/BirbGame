@@ -1,12 +1,10 @@
 package com.birb.game.Managers;
 
-import com.badlogic.gdx.Gdx;
 import com.birb.game.Entities.*;
 import com.birb.game.Enums.*;
 import com.birb.game.Utils.Coordinate;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.stream.Stream;
 
 public class EntityManager {
@@ -46,7 +44,7 @@ public class EntityManager {
             }
         }
         // Despawn of "dead" entities
-        entities.removeIf(Entity::isDestroy);
+        entities.removeIf(Entity::isDestroyed);
         entities.addAll(tempBuffer);
         tempBuffer.clear();
     }

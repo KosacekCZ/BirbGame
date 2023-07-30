@@ -38,10 +38,11 @@ public class BirbGame extends ApplicationAdapter {
 		t = Textures.getInstance();
 
 		// Temp spawns & setups
-		em.spawnPlayer(new Player(500f, 500f, 40f, 40f, 1.7f, 8, 100, 10));
+		em.spawnPlayer(new Player(500f, 500f, 50f, 50f, 1.7f, 8, 100, 10));
 		em.addEntity(new Crow(200, 200, 40, 40, 7,1.7f));
 		em.addEntity(new Crow(700, 500, 40, 40, 7,1.7f));
 		em.addEntity(new Crow(1200, 300, 40, 40, 7,1.7f));
+
 
 		t.loadTextures();
 
@@ -86,6 +87,7 @@ public class BirbGame extends ApplicationAdapter {
 		for (int i = 0; i < em.getCrows().toArray().length; i++) {
 			Font.draw("Crow #" + i + ": " + em.getCrows().toArray()[i].toString(), 25, 50, (i + 1) * 50);
 		}
+		Font.draw(em.getPlayer().toString(), 25, 50, 300);
 		Font.draw("Placement Mode: " + ph.isPlacementModeOn(), 20, 50, Gdx.graphics.getHeight() - 100);
 		Font.draw("Placed Items: " + ph.getPlacedItemsOverview(), 20, 50, Gdx.graphics.getHeight() - 125);
 
